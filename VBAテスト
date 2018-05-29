@@ -1,0 +1,4 @@
+Sub test()
+    ActiveCell.FormulaR1C1 = "aiueo"
+    Range("A5").Select
+End Sub
