@@ -1,4 +1,84 @@
-Sub test()
-    ActiveCell.FormulaR1C1 = "aiueo"
-    Range("A5").Select
+'フォーマットテンプレート
+Sub Templete()
+    ActiveSheet.Shapes.SelectAll
+    Selection.Delete
+    Cells.Select
+    Selection.Delete
+    Selection.ColumnWidth = 2.14
+    Selection.RowHeight = 20
+    Cells.Name = "メイリオ"
+    Range("B2").Value = "大見出し"
+    Range("B2").Font.Bold = True
+    
+    Range("C3").Value = "中見出し"
+    Rows("4:4").Select
+    ActiveWindow.FreezePanes = True
+    Range("D4").Select
 End Sub
+
+
+'赤枠
+Sub 赤枠()
+    With ActiveSheet.Shapes.AddShape(msoShapeRectangle, 0, 0, 140, 40)
+        With .TextFrame
+            .HorizontalAlignment = xlHAlignCenter
+            .VerticalAlignment = xlVAlignCenter
+        End With
+
+        With .Line
+            .ForeColor.RGB = RGB(255, 0, 0)
+            .Weight = 3
+        End With
+        .Select
+        .Top = ActiveCell.Top
+        .Left = ActiveCell.Left
+        .Fill.Visible = msoFalse
+    End With
+End Sub
+
+
+'緑吹き出し
+Sub 緑吹き出し()
+    With ActiveSheet.Shapes.AddShape(msoShapeRoundedRectangularCallout, 0, 0, 240, 60)
+        With .TextFrame
+            With .Characters
+                With .Font
+                .Size = 18
+                .Bold = True
+                End With
+                .Text = "サンプル"
+            End With
+            .HorizontalAlignment = xlHAlignCenter
+            .VerticalAlignment = xlVAlignCenter
+        End With
+
+        With .Line
+            .ForeColor.RGB = RGB(255, 255, 255)
+            .Weight = 3
+        End With
+        .Select
+        .Top = ActiveCell.Top
+        .Left = ActiveCell.Left
+        .Fill.Visible = True
+        .Fill.ForeColor.RGB = RGB(146, 208, 80)
+        .Adjustments.Item(1) = -0.6
+        .Adjustments.Item(2) = 1
+    End With
+End Sub
+
+'青矢印
+Sub 青矢印()
+    With ActiveSheet.Shapes.AddShape(msoShapeDownArrow, 0, 0, 60, 140)
+        With .Line
+            .ForeColor.RGB = RGB(255, 255, 255)
+            .Weight = 3
+        End With
+        .Select
+        .Top = ActiveCell.Top
+        .Left = ActiveCell.Left
+        .Fill.Visible = True
+        .Fill.ForeColor.RGB = RGB(80, 145, 207)
+    End With
+End Sub
+
+
