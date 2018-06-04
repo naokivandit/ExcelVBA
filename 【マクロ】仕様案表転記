@@ -1,0 +1,47 @@
+Sub 仕様案表転記()
+    Dim i
+    Dim j
+    Dim a
+    Dim kouban
+    i = 1
+    j = 1
+    
+    Sheets("機能").Cells("1,1").UnMerge
+    
+    '大項目が最大値になるまで繰り返す
+    Do
+        '中項目が最大値になるまで繰り返す
+        Do
+            Worksheets().Add After:=Worksheets(Worksheets.Count)
+            'シート名は「大項目番号-中項目番号」
+            ActiveSheet.Name = i & "-" & j
+                
+            Sheets("機能").Cells(1, 1).Copy
+            Sheets(i & "-" & j).Cells(1, 1).PasteSpecial Paste:=xlPasteValues
+            Range("A1:F3").Merge
+            Range("A1:F3").VerticalAlignment = xlCenter
+            Range("A1:F3").Font.Size = 18
+            
+            Cells(5, 1).Value = "大項目" & i
+            Cells(6, 1).Value = "中項目" & j
+            kouban = i & j
+            a = Sheets("機能").Range("J:J").Find(What:=kouban).Row
+            Sheets("機能").Cells(a, 2).Copy
+            Sheets(i & "-" & j).Cells(5, 2).PasteSpecial Paste:=xlPasteValues
+            Sheets("機能").Cells(a, 4).Copy
+            Sheets(i & "-" & j).Cells(6, 2).PasteSpecial Paste:=xlPasteValues
+            j = j + 1
+        Loop While Sheets("機能").Cells(a, 3).Value < Sheets("機能").Cells(a + 1, 3).Value
+        j = 1
+        i = i + 1
+    Loop While Sheets("機能").Cells(a, 1).Value < Sheets("機能").Cells(a + 1, 1).Value
+    Application.CutCopyMode = True
+    Sheets("機能").Range("A1:F3").Merge
+End Sub
+
+
+Sub 削除()
+    Sheets(Array("1-1", "1-2", "1-3", "2-1", "2-2", "3-1")).Delete
+End Sub
+
+
