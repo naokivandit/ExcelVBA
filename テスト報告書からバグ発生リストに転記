@@ -1,0 +1,62 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+    Dim a, b, c, d, e, f, r, n
+
+    'Dim bk1 As Workbook
+    'Dim sh1 As Worksheet
+
+    'Set bk1 = Workbooks("【テスト報告書】テンプレート.xlsm")
+    'Set sh1 = Sheets("検証項目")
+    
+        r = ActiveCell.Row - 1
+    
+    If InStr(Target.Address, "G") <> 0 _
+    And StrConv(LCase(Target.Value), vbNarrow) = "×" Then
+     
+        MsgBox "不具合発生リストにバグの内容を記載しますか？" & vbLf & "※備考に記載されている内容が不具合内容に転記されます", vbYesNo
+            If vbOK Then
+            Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 8).Value = Date
+
+            Dim wb As Workbook
+              For Each wb In Workbooks
+                If wb.Name = "【不具合発生リスト】テンプレート.xlsx" Then
+                  MsgBox "Book1は、すでに開いています"
+                  Exit Sub
+                End If
+              Next wb
+            Workbooks.Open FileName:=ThisWorkbook.Path & "/【不具合発生リスト】テンプレート.xlsx"
+
+            'ナンバー記載
+            n = Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells(Rows.Count, 1).End(xlUp).Row + 1
+            Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells(n, 1).Value = n - 4
+
+            '項目番号転記
+            a = Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 1).Text '大項目項番
+            b = Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 3).Text '中項目項番
+            c = Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 5).Text '検証項目項番
+            Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells(n, 2).Value = "'" & a & "-" & b & "-" & c
+
+            '検証内容転記
+            d = Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 2).Text '大項目内容
+            e = Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 4).Text '中項目内容
+            f = Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 6).Text '検証項目内容
+            Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells(n, 3).Value = "大項目:" & d & vbLf & "中項目:" & e & vbLf & "検証内容:" & f
+            
+            '不具合内容転記
+            Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(r, 9).Copy
+            Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells(n, 4).PasteSpecial Paste:=xlPasteValues
+            
+            '検証者転記
+            Workbooks("【テスト報告書】テンプレート.xlsm").Sheets("検証項目").Cells(3, 8).Copy
+            Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells(n, 5).PasteSpecial Paste:=xlPasteValues
+            
+            '日付
+            Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells(n, 6) = Date
+            
+            '列幅の自動調整
+            Workbooks("【不具合発生リスト】テンプレート.xlsx").Sheets("不具合発生リスト").Cells.EntireRow.AutoFit
+        Else
+        End If
+    End If
+
+End Sub
+
