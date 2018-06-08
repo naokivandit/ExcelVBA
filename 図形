@@ -1,22 +1,31 @@
-
 '赤枠
 Sub 赤枠()
     With ActiveSheet.Shapes.AddShape(msoShapeRectangle, 0, 0, 140, 40)
+        'テキストボックス
         With .TextFrame
-            .HorizontalAlignment = xlHAlignCenter
-            .VerticalAlignment = xlVAlignCenter
+            .Characters.Font.Name = "Meiryo UI" 'フォント
+            .Characters.Font.Size = 14 'フォントサイズ
+            .Characters.Font.Bold = True  '太さ
+            .Characters.Font.Color = RGB(112, 0, 0)  '色
+            '.Characters.Text = "入力したい内容を入れる" 'テキスト
+            .HorizontalAlignment = xlHAlignCenter '横位置 中央揃え
+            .VerticalAlignment = xlVAlignCenter '縦位置 中央揃え
         End With
 
+        '外枠
         With .Line
-            .ForeColor.RGB = RGB(255, 0, 0)
-            .Weight = 3
+            .ForeColor.RGB = RGB(255, 0, 0) '枠色
+            .Weight = 3 '枠の太さ
         End With
-        .Select
-        .Top = ActiveCell.Top
-        .Left = ActiveCell.Left
-        .Fill.Visible = msoFalse
+
+        .Top = ActiveCell.Top 'アクティブセルに図形を配置
+        .Left = ActiveCell.Left 'アクティブセルに図形を配置
+        .Fill.Visible = msoFalse '図形の塗りつぶしなし
+        .Select '図形を選択した状態
     End With
+
 End Sub
+
 
 
 '緑吹き出し
