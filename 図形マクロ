@@ -1,0 +1,239 @@
+Sub 赤枠()
+    Call 枠(255, 0, 0, msoLineSolid)
+End Sub
+
+Sub 青枠()
+    Call 枠(80, 145, 207, msoLineSolid)
+End Sub
+
+Sub 緑枠()
+    Call 枠(146, 208, 80, msoLineSolid)
+End Sub
+
+Sub 赤点線枠()
+    Call 枠(255, 0, 0, msoLineDash)
+End Sub
+
+Sub 青点線枠()
+    Call 枠(80, 145, 207, msoLineDash)
+End Sub
+
+Sub 緑点線枠()
+    Call 枠(146, 208, 80, msoLineDash)
+End Sub
+
+Sub 注意四角()
+    Call 四角(255, 0, 0, 255, 0, 0, 255, 255, 255)
+End Sub
+
+Sub ボタン()
+    Call 四角(0, 0, 0, 220, 220, 220, 220, 220, 220)
+End Sub
+
+Sub 赤矢印()
+    Call 矢印(255, 0, 0, msoLineSolid)
+End Sub
+
+Sub 青矢印()
+    Call 矢印(80, 145, 207, msoLineSolid)
+End Sub
+
+Sub 緑矢印()
+    Call 矢印(146, 208, 80, msoLineSolid)
+End Sub
+
+Sub 赤点線矢印()
+    Call 矢印(255, 0, 0, msoLineDash)
+End Sub
+
+Sub 青点線矢印()
+    Call 矢印(80, 145, 207, msoLineDash)
+End Sub
+
+Sub 緑点線矢印()
+    Call 矢印(146, 208, 80, msoLineDash)
+End Sub
+
+Sub 赤コネクタ()
+    Call コネクタ(255, 0, 0, msoLineSolid)
+End Sub
+
+Sub 青コネクタ()
+    Call コネクタ(80, 145, 207, msoLineSolid)
+End Sub
+
+Sub 緑コネクタ()
+    Call コネクタ(146, 208, 80, msoLineSolid)
+End Sub
+
+Sub 赤点線コネクタ()
+    Call コネクタ(255, 0, 0, msoLineDash)
+End Sub
+
+Sub 青点線コネクタ()
+    Call コネクタ(80, 145, 207, msoLineDash)
+End Sub
+
+Sub 緑点線コネクタ()
+    Call コネクタ(146, 208, 80, msoLineDash)
+End Sub
+
+Sub 赤ブロック矢印()
+    Call ブロック矢印(255, 0, 0)
+End Sub
+
+Sub 青ブロック矢印()
+    Call ブロック矢印(80, 145, 207)
+End Sub
+
+Sub 緑ブロック矢印()
+    Call ブロック矢印(146, 208, 80)
+End Sub
+
+Sub 赤吹き出し()
+    Call 吹き出し(255, 0, 0, msoLineSolid)
+End Sub
+
+Sub 青吹き出し()
+    Call 吹き出し(80, 145, 207, msoLineSolid)
+End Sub
+
+Sub 緑吹き出し()
+    Call 吹き出し(146, 208, 80, msoLineSolid)
+End Sub
+
+
+
+'枠
+Sub 枠(RGB1 As Integer, RGB2 As Integer, RGB3 As Integer, DashStyle As String)
+    With ActiveSheet.Shapes.AddShape(msoShapeRectangle, 0, 0, 140, 40)
+        '外枠
+        With .Line
+            .ForeColor.RGB = RGB(RGB1, RGB2, RGB3) '枠色
+            .Weight = 3 '枠の太さ
+            .Visible = msoTrue
+            .DashStyle = DashStyle
+        End With
+
+        .Top = ActiveCell.Top 'アクティブセルに図形を配置
+        .Left = ActiveCell.Left 'アクティブセルに図形を配置
+        .Fill.Visible = msoFalse '図形の塗りつぶしなし
+        .Select '図形を選択した状態
+    End With
+End Sub
+
+'四角
+Sub 四角(RGB1 As Integer, RGB2 As Integer, RGB3 As Integer, RGB4 As Integer, RGB5 As Integer, RGB6 As Integer, RGB7 As Integer, RGB8 As Integer, RGB9 As Integer)
+    With ActiveSheet.Shapes.AddShape(msoShapeRectangle, 0, 0, 140, 40)
+        'テキストボックス
+        With .TextFrame
+            .Characters.Font.Name = "Meiryo UI" 'フォント
+            .Characters.Font.Size = 14 'フォントサイズ
+            .Characters.Font.Bold = True  '太さ
+            .Characters.Font.Color = RGB(RGB1, RGB2, RGB3)  '色
+            .Characters.Text = "サンプル" 'テキスト
+            .HorizontalAlignment = xlHAlignCenter '横位置 中央揃え
+            .VerticalAlignment = xlVAlignCenter '縦位置 中央揃え
+        End With
+
+        '外枠
+        With .Line
+            .ForeColor.RGB = RGB(RGB4, RGB5, RGB6) '枠色
+            .Weight = 3 '枠の太さ
+        End With
+
+        .Top = ActiveCell.Top 'アクティブセルに図形を配置
+        .Left = ActiveCell.Left 'アクティブセルに図形を配置
+        .Fill.Visible = True '図形の塗りつぶしあり
+        .Fill.ForeColor.RGB = RGB(RGB7, RGB8, RGB9) '塗りつぶし色
+        .Select '図形を選択した状態
+    End With
+End Sub
+
+'矢印
+Sub 矢印(RGB1 As Integer, RGB2 As Integer, RGB3 As Integer, DashStyle As String)
+    With ActiveSheet.Shapes.AddConnector(msoConnectorStraight, 45, 0, 45, 100)
+        '外枠
+        With .Line
+            .Weight = 3 '枠の太さ
+            .EndArrowheadStyle = msoArrowheadTriangle
+            .Visible = True '図形の塗りつぶしあり
+            .ForeColor.RGB = RGB(RGB1, RGB2, RGB3) '枠色
+            .DashStyle = DashStyle
+        End With
+
+        .Select
+        .Top = ActiveCell.Top 'アクティブセルに図形を配置
+        .Left = ActiveCell.Left 'アクティブセルに図形を配置
+
+    End With
+End Sub
+
+'コネクタ
+Sub コネクタ(RGB1 As Integer, RGB2 As Integer, RGB3 As Integer, DashStyle As String)
+    With ActiveSheet.Shapes.AddConnector(msoConnectorElbow, 45, 0, 45, 100)
+        '外枠
+        With .Line
+            .Weight = 3 '枠の太さ
+            .EndArrowheadStyle = msoArrowheadTriangle
+            .Visible = True '図形の塗りつぶしあり
+            .ForeColor.RGB = RGB(RGB1, RGB2, RGB3) '枠色
+            .DashStyle = DashStyle
+        End With
+
+        .Select
+        .Top = ActiveCell.Top 'アクティブセルに図形を配置
+        .Left = ActiveCell.Left 'アクティブセルに図形を配置
+
+    End With
+End Sub
+
+'ブロック矢印
+Sub ブロック矢印(RGB1 As Integer, RGB2 As Integer, RGB3 As Integer)
+    With ActiveSheet.Shapes.AddShape(msoShapeDownArrow, 0, 0, 60, 140)
+        '外枠
+        With .Line
+            .ForeColor.RGB = RGB(255, 255, 255) '枠色
+            .Weight = 3 '枠の太さ
+        End With
+
+        .Select
+        .Top = ActiveCell.Top 'アクティブセルに図形を配置
+        .Left = ActiveCell.Left 'アクティブセルに図形を配置
+        .Fill.Visible = True '図形の塗りつぶしあり
+        .Fill.ForeColor.RGB = RGB(RGB1, RGB2, RGB3) '枠色
+    End With
+End Sub
+
+'吹き出し
+Sub 吹き出し(RGB1 As Integer, RGB2 As Integer, RGB3 As Integer, DashStyle As String)
+    With ActiveSheet.Shapes.AddShape(msoShapeRoundedRectangularCallout, 0, 0, 240, 60)
+        'テキストボックス
+        With .TextFrame
+            .Characters.Font.Name = "Meiryo UI" 'フォント
+            .Characters.Font.Size = 14 'フォントサイズ
+            .Characters.Font.Bold = True  '太さ
+            .Characters.Font.Color = RGB(255, 255, 255)  '色
+            .Characters.Text = "サンプル" 'テキスト
+            .HorizontalAlignment = xlHAlignCenter '横位置 中央揃え
+            .VerticalAlignment = xlVAlignCenter '縦位置 中央揃え
+        End With
+
+        '外枠
+        With .Line
+            .ForeColor.RGB = RGB(255, 255, 255) '枠色
+            .Weight = 3 '枠の太さ
+            .Visible = msoTrue
+            .DashStyle = DashStyle
+        End With
+
+        .Select
+        .Top = ActiveCell.Top 'アクティブセルに図形を配置
+        .Left = ActiveCell.Left 'アクティブセルに図形を配置
+        .Fill.Visible = True '図形の塗りつぶしあり
+        .Fill.ForeColor.RGB = RGB(RGB1, RGB2, RGB3) '枠色
+        .Adjustments.Item(1) = -0.6 '吹き出しの位置
+        .Adjustments.Item(2) = 1 '吹き出しの位置
+    End With
+End Sub
+

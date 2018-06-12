@@ -1,0 +1,32 @@
+
+
+'F1使用禁止
+Sub F1禁止()
+    Application.OnKey "{F1}", ""
+End Sub
+
+Sub 保存時に全てのシートをA1にして一番最初のページにして更新日を更新()
+
+Sheets("一覧").Range("H2").Value = Now
+Range("A1").Select
+Sheets("一覧").Select
+ActiveWindow.Zoom = 100
+Range("A1").Select
+ActiveWindow.View = xlNormalView
+ActiveWorkbook.Save
+
+End Sub
+
+Sub アクティブセルに拡張子抜きのブック名を入力する()
+  Dim bk_name As String
+
+  bk_name = ActiveWorkbook.Name
+
+  If ActiveSheet.Type = xlWorksheet Then
+    ActiveCell.Value = _
+    "'" & Left(bk_name, InStrRev(bk_name, ".") - 1)
+  End If
+End Sub
+
+
+
