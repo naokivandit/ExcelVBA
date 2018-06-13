@@ -1,9 +1,16 @@
+Option Explicit
+Private Sub Worksheet_Activate()
+  Application.CommandBars("Cell").Reset
+  With CommandBars("Cell").Controls.Add(Before:=1)
+    .Caption = "方眼紙" '右クリックを押した時の名称を入れる
+    .OnAction = "方眼紙" 'マクロ名を入れる
+    End With
+End Sub
 
-
-'F1使用禁止
 Sub F1禁止()
     Application.OnKey "{F1}", ""
 End Sub
+
 
 Sub A1保存()
     Dim s As Object
@@ -15,39 +22,44 @@ Sub A1保存()
         ActiveWindow.Zoom = 100
     Next s
 
-    　Dim i As Long
-　For i = 1 to Sheets.Count
-　　If Sheets(i).Visible = xlSheetVisible Then
-　　　Sheets(i).Select
-　　　Exit Sub
-　　End If
-　Next i
-
-    ActiveWorkbook.Save
-
-End Sub
-
-
-Sheets("一覧").Range("H2").Value = Now
-Range("A1").Select
-Sheets("一覧").Select
-ActiveWindow.Zoom = 100
-Range("A1").Select
-ActiveWindow.View = xlNormalView
+    Dim i As Long
+      For i = 1 To Sheets.Count
+If Sheets(i).Visible = xlSheetVisible Then
+Sheets(i).Select
+Exit Sub
+End If
+Next i
 ActiveWorkbook.Save
-
 End Sub
 
-Sub アクティブセルに拡張子抜きのブック名を入力する()
+
+Sub ブック名入力()
   Dim bk_name As String
-
   bk_name = ActiveWorkbook.Name
-
   If ActiveSheet.Type = xlWorksheet Then
     ActiveCell.Value = _
     "'" & Left(bk_name, InStrRev(bk_name, ".") - 1)
   End If
 End Sub
 
+
+Sub 行挿入()
+    Rows(ActiveCell.Row + 1).Insert
+    Selection.Interior.Pattern = xlNone
+    Selection.Interior.TintAndShade = 0
+    Selection.Interior.PatternTintAndShade = 0
+End Sub
+
+Sub 画像幅調整()
+    Selection.ShapeRange.LockAspectRatio = msoTrue
+    Selection.ShapeRange.Height = 400
+End Sub
+
+Sub 方眼紙()
+    Cells.Select
+    Selection.ColumnWidth = 2
+    Selection.RowHeight = 19
+    Range("A1").Select
+End Sub
 
 
