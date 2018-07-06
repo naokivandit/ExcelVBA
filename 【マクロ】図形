@@ -102,6 +102,15 @@ Sub 緑吹き出し()
     Call 吹き出し(146, 208, 80, msoLineSolid)
 End Sub
 
+Sub 選択した画像に点線枠()
+    With Selection.ShapeRange.Line
+        .Visible = msoTrue
+        .Weight = 3
+        .DashStyle = msoLineSysDot
+        .ForeColor.RGB = RGB(255, 0, 0)
+    End With
+End Sub
+
 
 
 '枠
