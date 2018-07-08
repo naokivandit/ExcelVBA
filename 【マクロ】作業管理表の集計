@@ -1,0 +1,64 @@
+Sub 集計()
+    Path = ThisWorkbook.Path & "/"
+    FirstRow = Workbooks("集計.xlsm").Sheets("集計").Cells(Rows.Count, 1).End(xlUp).Row + 1
+    str2 = Dir(Path)
+
+    Do While str2 <> ""
+       If str2 Like "*日*" Then
+        Workbooks.Open (Path & str2), ReadOnly:=True
+        FirstRow = Workbooks("集計.xlsm").Sheets("集計").Cells(Rows.Count, 1).End(xlUp).Row + 1
+        bk_name = Left(ActiveWorkbook.Name, InStrRev(ActiveWorkbook.Name, ".") - 1)
+        Workbooks(str2).Sheets("作業管理表").Range("A2:P17").Copy
+        Workbooks("集計.xlsm").Sheets("集計").Cells(FirstRow, 2).PasteSpecial Paste:=xlPasteValues
+        Application.CutCopyMode = False
+        Workbooks("集計.xlsm").Sheets("集計").Range(Cells(FirstRow, 1), Cells(FirstRow + 15, 1)).Value = bk_name
+        Workbooks(str2).Close
+      Else
+      End If
+        str2 = Dir()
+    Loop
+
+    Dim r As Integer
+    r = 2
+    LastRow = Workbooks("集計.xlsm").Sheets("集計").Cells(Rows.Count, 2).End(xlUp).Row
+    Do While r <= LastRow
+        If Cells(r, 3).Value = "ランチ" Then
+            Do Until Cells(r, 3).Value <> "ランチ"
+              Rows(r).Delete Shift:=xlUp
+              LastRow = LastRow - 1
+            Loop
+        End If
+        r = r + 1
+    Loop
+
+    LastRow = Workbooks("集計.xlsm").Sheets("集計").Cells(Rows.Count, 2).End(xlUp).Row
+    Workbooks("集計.xlsm").Sheets("集計").Range(Cells(2, 18), Cells(LastRow, 18)).Value = 0.5
+
+    If (ActiveSheet.AutoFilterMode = True) Then
+    Else
+        Range("A1:R1").Select
+        Selection.AutoFilter
+    End If
+
+    Workbooks("集計.xlsm").Worksheets("集計").AutoFilter.Sort.SortFields.Clear
+    Workbooks("集計.xlsm").Worksheets("集計").AutoFilter.Sort.SortFields.Add2 Key:=Range( _
+        "A1:A49"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
+        xlSortNormal
+    With ActiveWorkbook.Worksheets("集計").AutoFilter.Sort
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+End Sub
+
+
+Sub 再集計()
+    LastRow = Workbooks("集計.xlsm").Sheets("集計").Cells(Rows.Count, 2).End(xlUp).Row
+    If LastRow >= 2 Then
+        Range("2:" & LastRow).Delete
+    Else
+    End If
+    Call 集計
+End Sub
